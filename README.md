@@ -2,9 +2,9 @@
 
 ## Overview
 
-The code in this repository implements the algorithms proposed in the manuscript [1]. In particular, it allows to reproduce all tables and figures in the manuscript. 
+The code in this repository implements the algorithms proposed in the manuscript [1] (Link: <https://arxiv.org/abs/2208.11447>). In particular, it allows to reproduce all tables and figures in the manuscript. 
 
-Please note that most scripts are *not optimized with respect to execution time*, as their purpose is comparing and plotting the *error* of different methods, not comparing their run time.
+Most scripts are *not optimized for fast execution*, as their purpose is comparing and plotting the *error* of different methods, not comparing their runtime.
 
 ## Reproducing figures and tables from [1]
 For reproducing the figures and tables from [1], run the scripts `drive_*.m` at the top level of the folder structure. 
@@ -15,7 +15,7 @@ For reproducing the figures and tables from [1], run the scripts `drive_*.m` at 
 - `drive_qcd_timings.m`: This script runs the second experiment reported in "Section 5.3: Lattice QCD" of [1]. It generates the LaTeX code for Table 5.1.
 
 ## Citation
-If you use our code in a scientific publication, we would appreciate your citing:
+If you use our code in a scientific publication, please cite:
 
 ```bibtex
 @article{GuettelSchweitzer2022,
@@ -27,7 +27,7 @@ If you use our code in a scientific publication, we would appreciate your citing
 ```
 
 ## License
-
+This project is licensed under the MIT License.
 
 ## References
-[1] S. Güttel, M. Schweitzer, Randomized sketching for Krylov approximations of large-scale matrix functions, arXiv preprint arXiv:2208.11447 (2022)
+[1] S. Güttel, M. Schweitzer, Randomized sketching for Krylov approximations of large-scale matrix functions, arXiv preprint arXiv:2208.11447 (2022) <https://arxiv.org/abs/2208.11447>
