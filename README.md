@@ -18,7 +18,7 @@ For reproducing the figures and tables from [1], run the scripts `drive_*.m` at 
 If you use our code in a scientific publication, please cite:
 
 ```bibtex
-@article{GuettelSchweitzer2022,
+@techreport{GuettelSchweitzer2022,
   title={Randomized sketching for {K}rylov approximations of large-scale matrix functions},
   author={G{\"u}ttel, Stefan and Schweitzer, Marcel},
   year={2022},
