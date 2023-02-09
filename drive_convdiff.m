@@ -43,12 +43,11 @@ hS = setup_sketching_handle(N,2*num_it); % s = 2*m_max
 %  (note that we are using the GMRES approximate generalized evs for the contour)
 err_sfom_quad = sfom_invsqrt_quad_eval_error(Vtrunc,SV,SAV,hS(v),Rw,ex_convdiff,num_it,c,z);
 figure(1)
-hold on
 hh1 = line_fewer_markers(1:num_it,err_sfom_quad,23,'s--','Color',[0.8500 0.3250 0.0980]);
 
 
 %% sFOM (closed formula)
-err_sfom_closed = sfom_closed_eval_error(Vtrunc,SV,SAV,hS(v),Rw,ex_convdiff,@(X) inv(sqrtm(full(X))), num_it);
+[err_sfom_closed, diff_f] = sfom_closed_eval_error_and_diff(Vtrunc,SV,SAV,A,Vfull,hS(v),Rw,ex_convdiff,@(X) inv(sqrtm(full(X))), num_it);
 figure(1)
 h2 = line_fewer_markers(1:num_it,err_sfom_closed,23,'o:','Color',[0.9290 0.6940 0.1250]);
 
@@ -66,13 +65,22 @@ h3 = line_fewer_markers(1:num_it,err_sgmres,23,'x-.','Color',[0.4940 0.1840 0.55
 h4 = semilogy([84.5,84.5],[1e-16,1e16],'-','Color',[.5,.5,.5]);
 uistack(h4,'bottom')
 
+% plot conditioning of truncated basis
+cond_Vtrunc = zeros(1,num_it);
+for i = 1:num_it
+    cond_Vtrunc(i) = cond(Vtrunc(:,1:i));
+end
+h5 = semilogy(1:num_it,eps*cond_Vtrunc,'.','Color',[0.4660, 0.6740, 0.1880]);
+
+h6 = semilogy(1:num_it,diff_f,'-.','Color',[0.3010, 0.7450, 0.9330]);
+
 % plot title, axis labels etc.
 title(['convergence (truncation length k=' num2str(k) ')'],'FontWeight','normal')
 xlabel('matrix-vector products m')
 ylabel('2-norm error')
-ylim([1e-8,2e0]), shg
+ylim([1e-16,1e3]), shg
 xlim([0,num_it+1])
-legend([h0,hh1,h2,h3],'best approx','sFOM (quad)','sFOM (closed)','sGMRES','Location','SouthWest')
+legend([h0,hh1,h2,h3,h5],'best approx','sFOM (quad)','sFOM (closed)','sGMRES','u\cdot\kappa(V_m)','Location','SouthWest')
 
 % save plot (Figure 5.1 - left)
 mypdf(['fig/convdiff_trunc' num2str(k)],.66,1.5)

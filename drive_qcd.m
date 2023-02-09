@@ -75,13 +75,20 @@ for k = 2:4 % how many blocks to orthogonalise against
 
     h4 = line_fewer_markers(param.restart_length*(1:length(out.err)),out.err,10,'--+','Color',[0.4660 0.6740 0.1880]);
 
+    % plot conditioning of truncated basis
+    cond_Vtrunc = zeros(1,num_it);
+    for i = 1:num_it
+        cond_Vtrunc(i) = cond(Vtrunc(:,1:i));
+    end
+    h5 = semilogy(1:num_it,eps*cond_Vtrunc,'.','Color',[0.3010, 0.7450, 0.9330]);
+
     % plot title, axis labels etc.
     title(['convergence (truncation/restart length = ' num2str(k) ')'],'FontWeight','normal')
     xlabel('matrix-vector products m')
     ylabel('2-norm error')
-    ylim([1e-7,2e0]), shg
+    ylim([1e-16,2e0]), shg
     xlim([0,num_it+1])
-    legend([h0,hh1,h2,h3,h4],'best approx','sFOM (quad)','sFOM (closed)','sGMRES','funm\_quad','Location','SouthWest')
+    legend([h0,hh1,h2,h3,h4,h5],'best approx','sFOM (quad)','sFOM (closed)','sGMRES','funm\_quad','u\cdot\kappa(V_m)','Location','SouthWest')
 
     % save plot (Figure 5.3)
     % k = 2: top left

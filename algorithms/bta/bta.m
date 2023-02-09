@@ -1,4 +1,4 @@
-function [SV,SAV,SBV,Vfull] = bta(A,B,v,xi,t,hS)
+function [SV,SAV,SBV,Vfull] = bta(A,B,v,xi,t,hS,mgs,reo)
 % block truncated rational Arnoldi with randomized reduction
 % (A,B) - matrix pair
 % v     - block vector
@@ -13,6 +13,12 @@ function [SV,SAV,SBV,Vfull] = bta(A,B,v,xi,t,hS)
 
 [N,b] = size(v);
 
+if nargin < 7
+    mgs = false;
+end
+if nargin < 8
+    reo = 0;
+end
 if ishermitian(A) && ishermitian(B) && all(isreal(xi))
     disp('Hermitian problem with real shifts. (LDL flag = 1, only for mylinsolve.m)')
     ldl_flag = 1;
@@ -29,7 +35,7 @@ end
 
 
 V = zeros(N, t*b); % truncated orthonormal basis (last t blocks)
-mgs = 0; % modified GS
+
 mylinsolve(); % using decomposition, slower but more accurate
 %mylinsolve_umfpack(); % fast, less accuracte, used by eigs?
 %util_linsolve(); % LU, faster but less accurate
@@ -74,8 +80,10 @@ for j = 1:length(xi)
         end
     end
     if mgs % modified gram schmidt
-        for i = 1:t
-            w = w - V(:,1+(i-1)*b:i*b)*(V(:,1+(i-1)*b:i*b)'*w);
+        for reo = 0:1
+            for i = 1:t
+                w = w - V(:,1+(i-1)*b:i*b)*(V(:,1+(i-1)*b:i*b)'*w);
+            end
         end
     else % classical gram schmidt
         w = w - V*(V'*w);
