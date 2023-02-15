@@ -23,7 +23,7 @@ k = 2;
 tol_stop = 1e-5;
 tol_quad = tol_stop;
 
-fprintf('Running plain Arnoldi ...')
+fprintf('Running standard FOM...')
 tic
 [x_arnoldi, rel_err_arnoldi, ~, iter_arnoldi] = arnoldi_invsqrtm(A, v, num_it, tol_stop, ex_qcd);
 time_arnoldi = toc;
@@ -73,7 +73,7 @@ fprintf('sketched FOM (closed form)  |     %1d     |     %3d     | %1.2fs | %.2e
 fprintf('sketched FOM (quadrature)   |     %1d     |     %3d     | %1.2fs | %.2e \n', k, iter_fom_quad, time_fom_quad, rel_err_fom_quad);
 fprintf('sketched GMRES (quadrature) |     %1d     |     %3d     | %1.2fs | %.2e \n', k, iter_gmres, time_gmres, rel_err_gmres);
 fprintf('funm_quad                   |    %2d     |     %3d     | %1.2fs | %.2e \n', param.restart_length, iter_funmquad, time_funmquad, rel_err_funmquad);
-fprintf('Plain Arnoldi               |    --     |     %3d     | %1.2fs | %.2e \n\n', iter_arnoldi, time_arnoldi, rel_err_arnoldi);
+fprintf('standard FOM                |    --     |     %3d     | %1.2fs | %.2e \n\n', iter_arnoldi, time_arnoldi, rel_err_arnoldi);
 
 %% Create LaTeX code for table (Table 5.1)
 fID = fopen('fig/tab_qcd.tex','w');
@@ -88,7 +88,7 @@ fprintf(fID,'sketched FOM (closed form) & %1d & %3d & %1.2fs & $%.2f \\cdot 10^{
 fprintf(fID,'sketched FOM (quadrature) & %1d & %3d & %1.2fs & $%.2f \\cdot 10^{%1d}$ \\\\\n', k, iter_fom_quad, time_fom_quad, rel_err_fom_quad*10^(-floor(log10(rel_err_fom_quad))),floor(log10(rel_err_fom_quad)));
 fprintf(fID,'sketched GMRES (quadrature) & %1d & %3d & %1.2fs & $%.2f \\cdot 10^{%1d}$ \\\\\n', k, iter_gmres, time_gmres, rel_err_gmres*10^(-floor(log10(rel_err_gmres))),floor(log10(rel_err_gmres)));
 fprintf(fID,'\\texttt{funm\\_quad} & %2d & %3d & %1.2fs & $%.2f \\cdot 10^{%1d}$ \\\\\n', k, iter_funmquad, time_funmquad, rel_err_funmquad*10^(-floor(log10(rel_err_funmquad))),floor(log10(rel_err_funmquad)));
-fprintf(fID,'Plain Arnoldi & -- & %3d & %1.2fs & $%.2f \\cdot 10^{%1d}$ \\\\\n', iter_arnoldi, time_arnoldi, rel_err_arnoldi*10^(-floor(log10(rel_err_arnoldi))),floor(log10(rel_err_arnoldi)));
+fprintf(fID,'Standard FOM & -- & %3d & %1.2fs & $%.2f \\cdot 10^{%1d}$ \\\\\n', iter_arnoldi, time_arnoldi, rel_err_arnoldi*10^(-floor(log10(rel_err_arnoldi))),floor(log10(rel_err_arnoldi)));
 fprintf(fID,'\\end{tabular}\n');
 fprintf(fID,'\\end{table}');
 fclose(fID);

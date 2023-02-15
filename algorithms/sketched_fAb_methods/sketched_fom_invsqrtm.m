@@ -47,6 +47,7 @@ V(:,1) = b/norm(b);
 H = zeros(m+1,m);
 
 N1 = 32; N2 = 45;
+current_eps = 0;
 
 for j = 1:m
     if isnumeric(A)
@@ -56,6 +57,17 @@ for j = 1:m
     end
 
     SV(:,j) = S(V(:,j));
+    norm_SV2 = norm(SV(:,j))^2;
+    ratio = 1/norm_SV2;
+    if ratio < 1
+        new_eps = 1-ratio;
+    else
+        new_eps = ratio-1;
+    end
+    if new_eps > current_eps
+        current_eps = new_eps;
+    end
+
     SAV(:,j) = S(w);
 
     H(1:j,j) = 0;
@@ -129,7 +141,7 @@ for j = 1:m
         if j == d
             coeffs_old = coeffs;
         else
-            err_est(j) = norm(coeffs-[coeffs_old; zeros(d,1)])/norm(coeffs);
+            err_est(j) = 1/sqrt(1-current_eps)*norm(coeffs-[coeffs_old; zeros(d,1)])/norm(coeffs);
             coeffs_old = coeffs;
             if err_est(j) < tol_stop
                 iter = j;
