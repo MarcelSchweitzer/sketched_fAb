@@ -135,7 +135,7 @@ for j = 1:m
         if j == d
             coeffs_old = coeffs;
         else
-            err_est(j) = 1/sqrt(1-current_eps)*norm(coeffs-[coeffs_old; zeros(d,1)])/norm(coeffs);
+            err_est(j) = 1/sqrt(1-current_eps)*norm(SV(:,1:j)*(coeffs-[coeffs_old; zeros(d,1)]))/norm(SV(:,1:j)*coeffs);
             coeffs_old = coeffs;
             if err_est(j) < tol_stop
                 iter = j;
