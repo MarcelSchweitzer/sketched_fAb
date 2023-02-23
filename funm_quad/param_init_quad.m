@@ -154,7 +154,7 @@ if ~isempty(param.thick) && ~isfield(param,'number_thick'),
     modified = 1;
 end
 
-if ~isfield(param,'transformation_parameter') && strcmp(param.function,'invSqrt'),
+if ~isfield(param,'transformation_parameter') && (strcmp(param.function,'invSqrt') || strcmp(param.function,'sqrt')),
     param.transformation_parameter = 1;
     if param.verbose, 
         disp('Warning: .transformation_parameter not specified, set to 1.');
